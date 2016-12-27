@@ -18,8 +18,10 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var submit: UIButton!
+  
     @IBOutlet weak var status: UILabel!
     
+    @IBOutlet weak var statusOutlet: UIActivityIndicatorView!
     @IBOutlet weak var findlocButton: UIButton!
 
        var submitThisCord = CLLocationCoordinate2D()
@@ -29,8 +31,15 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
         mapView.isHidden = true
         submit.isHidden = true
         status.isHidden = true
+        statusOutlet.stopAnimating()
+        statusOutlet.isHidden = true
         self.link.delegate = self
         self.location.delegate = self
+        
+    }
+    @IBAction func cancelAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+
     }
     
     func handleError(_ title: String, message: String, dismiss: String)
@@ -47,7 +56,10 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
     }
     
     @IBAction func findlocationAction(_ sender: Any) {
+        statusOutlet.isHidden = false
+        statusOutlet.startAnimating()
         determineLocation()
+        
     }
   
     
@@ -82,6 +94,8 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
                     self.findlocButton.isHidden = true
                     self.submit.isHidden = false
                     self.status.isHidden = true
+                    self.statusOutlet.stopAnimating()
+                    self.statusOutlet.isHidden = true
                 
                     
                     
@@ -99,6 +113,8 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
     
     
     @IBAction func submitAction(_ sender: Any) {
+        statusOutlet.isHidden = false
+        statusOutlet.startAnimating()
         location.isHidden = true
         submit.isEnabled = false
         status.isHidden = false
@@ -115,6 +131,9 @@ class addNew : UIViewController, MKMapViewDelegate,UITextFieldDelegate
             (success, error)
             in
             if success {
+                
+                self.statusOutlet.stopAnimating()
+                self.statusOutlet.isHidden = true
                     let controller = self.storyboard?.instantiateViewController(withIdentifier: "tabNav")
                     self.present(controller!, animated: true, completion: nil)
                 

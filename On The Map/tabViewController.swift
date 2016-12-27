@@ -30,7 +30,7 @@ class tabViewController : UITabBarController
             }
             else
             {
-                print("Couldnt reload the data")
+                self.handleError("Error", message: "Could Not Get Data From Parse Server", dismiss: "Dismiss")
             }
         })
 
